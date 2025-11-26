@@ -4,7 +4,9 @@ import Hero from './components/Hero';
 import Timeline from './components/Timeline';
 import Portfolio from './components/Portfolio';
 import Gaming from './components/Gaming';
+import Sidebar from './components/Sidebar';
 import AIChat from './components/AIChat';
+import Footer from './components/Footer';
 import { ChevronUp } from 'lucide-react';
 
 const App: React.FC = () => {
@@ -21,30 +23,36 @@ const App: React.FC = () => {
   };
 
   return (
-    <div className="bg-background min-h-screen text-gray-200 selection:bg-accent selection:text-black">
+    <div className="min-h-screen flex flex-col">
       <Navbar />
       
-      <main className="relative">
-        <Hero />
-        <Timeline />
-        <Portfolio />
-        <Gaming />
-      </main>
+      <Hero />
 
-      <footer className="py-12 bg-black/40 border-t border-white/5 text-center relative z-10">
-        <div className="container mx-auto px-6">
-           <p className="text-gray-400 font-mono text-sm mb-2">© {new Date().getFullYear()} NeonPersona</p>
-           <p className="text-gray-600 text-xs">Designed with Gemini Intelligence</p>
+      {/* Main Content Area */}
+      <div className="container mx-auto px-4 py-12 max-w-7xl flex-1">
+        <div className="flex flex-col lg:flex-row gap-8">
+          
+          {/* Main Content Column */}
+          <main className="lg:w-[72%] order-2 lg:order-1 flex flex-col gap-12">
+             <Portfolio />
+             <Timeline />
+             <Gaming />
+          </main>
+
+          {/* Sidebar Column */}
+          <aside className="lg:w-[28%] order-1 lg:order-2 relative">
+             <Sidebar />
+          </aside>
+
         </div>
-      </footer>
+      </div>
 
-      {/* Interactive Elements */}
+      <Footer />
       <AIChat />
 
-      {/* Hexo Style Scroll to Top */}
       <button 
         onClick={scrollToTop}
-        className={`fixed bottom-8 right-24 z-40 p-3 bg-surface border border-white/10 rounded-lg text-primary shadow-lg transition-all duration-300 transform hover:bg-primary hover:text-white ${
+        className={`fixed bottom-8 left-8 z-40 p-3 bg-primary text-white rounded-lg shadow-lg transition-all duration-300 transform hover:-translate-y-1 ${
           showScrollTop ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0 pointer-events-none'
         }`}
       >

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { PERSONAL_INFO } from '../constants';
-import { ArrowDown, Github, Linkedin, Twitter, Hexagon } from 'lucide-react';
+import { ChevronDown } from 'lucide-react';
 
 const TypewriterEffect: React.FC<{ text: string }> = ({ text }) => {
   const [displayText, setDisplayText] = useState('');
@@ -11,14 +11,15 @@ const TypewriterEffect: React.FC<{ text: string }> = ({ text }) => {
       const timeout = setTimeout(() => {
         setDisplayText((prev) => prev + text.charAt(index));
         setIndex((prev) => prev + 1);
-      }, 50); // Typing speed
+      }, 150); 
       return () => clearTimeout(timeout);
     }
   }, [index, text]);
 
   return (
-    <span className="font-mono text-accent border-r-2 border-primary animate-typecursor pr-1">
+    <span className="inline-block relative">
       {displayText}
+      <span className="absolute -right-1 top-0 bottom-0 w-0.5 bg-white animate-typecursor"></span>
     </span>
   );
 };
@@ -26,76 +27,49 @@ const TypewriterEffect: React.FC<{ text: string }> = ({ text }) => {
 const Hero: React.FC = () => {
   const handleScrollDown = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
-    const element = document.getElementById('timeline');
+    const element = document.getElementById('projects'); // Usually scroll to first content
     if (element) {
       element.scrollIntoView({ behavior: 'smooth' });
     }
   };
 
   return (
-    <section id="hero" className="relative min-h-screen flex items-center justify-center overflow-hidden pt-16">
-      {/* Animated Hexagon Background */}
-      <div className="absolute inset-0 overflow-hidden -z-10 pointer-events-none">
-        <div className="absolute top-20 left-[10%] opacity-20 text-primary animate-float animation-delay-0">
-           <Hexagon size={120} strokeWidth={1} />
-        </div>
-        <div className="absolute top-1/3 right-[15%] opacity-20 text-secondary animate-float" style={{ animationDelay: '2s' }}>
-           <Hexagon size={180} strokeWidth={0.5} />
-        </div>
-        <div className="absolute bottom-20 left-[20%] opacity-10 text-accent animate-float" style={{ animationDelay: '4s' }}>
-           <Hexagon size={80} strokeWidth={2} />
-        </div>
-        
-        {/* Grid Overlay */}
-        <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:50px_50px] [mask-image:radial-gradient(ellipse_at_center,black_40%,transparent_100%)]"></div>
-      </div>
-
-      <div className="container mx-auto px-6 relative z-10 text-center">
-        <div className="inline-block mb-6 px-4 py-1.5 rounded-full border border-primary/30 bg-primary/10 text-primary text-xs font-bold tracking-widest uppercase shadow-[0_0_15px_rgba(99,102,241,0.3)] backdrop-blur-sm">
-          Welcome to my digital space
-        </div>
-        
-        <h1 className="text-5xl md:text-8xl font-bold mb-6 tracking-tighter">
-          <span className="bg-clip-text text-transparent bg-gradient-to-br from-white via-gray-200 to-gray-500">
-            {PERSONAL_INFO.name}
-          </span>
+    <section id="hero" className="relative h-screen w-full flex items-center justify-center overflow-hidden">
+      {/* Background with zoom animation is handled by body, but here we add content */}
+      
+      <div className="relative z-10 text-center px-4 max-w-5xl mx-auto mt-[-60px] animate-fade-up">
+        <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold mb-6 text-white drop-shadow-[0_2px_10px_rgba(0,0,0,0.5)] font-serif tracking-tight">
+          {PERSONAL_INFO.name}
         </h1>
         
-        <div className="text-xl md:text-2xl text-gray-400 mb-10 h-16 md:h-8 flex items-center justify-center">
-          <p className="max-w-3xl mx-auto">
-             I am a <TypewriterEffect text={PERSONAL_INFO.title} />
+        <div className="inline-block px-8 py-3 rounded-full bg-black/30 backdrop-blur-sm border border-white/10 shadow-lg">
+          <p className="text-lg md:text-2xl text-gray-100 font-light tracking-wide font-mono">
+             <span className="text-primary mr-2">&gt;</span>
+             <TypewriterEffect text={PERSONAL_INFO.tagline} />
           </p>
         </div>
-        
-        <p className="text-gray-500 mb-10 max-w-2xl mx-auto leading-relaxed text-sm md:text-base">
-          {PERSONAL_INFO.tagline}
-        </p>
+      </div>
 
-        <div className="flex justify-center gap-6 mb-16">
-          <a href={PERSONAL_INFO.socials.github} target="_blank" rel="noreferrer" className="group relative p-4">
-             <div className="absolute inset-0 bg-white/5 hexagon transform scale-0 group-hover:scale-100 transition-transform duration-300"></div>
-             <Github size={24} className="relative z-10 text-gray-400 group-hover:text-white transition-colors" />
-          </a>
-          <a href={PERSONAL_INFO.socials.twitter} target="_blank" rel="noreferrer" className="group relative p-4">
-             <div className="absolute inset-0 bg-white/5 hexagon transform scale-0 group-hover:scale-100 transition-transform duration-300"></div>
-             <Twitter size={24} className="relative z-10 text-gray-400 group-hover:text-white transition-colors" />
-          </a>
-          <a href={PERSONAL_INFO.socials.linkedin} target="_blank" rel="noreferrer" className="group relative p-4">
-             <div className="absolute inset-0 bg-white/5 hexagon transform scale-0 group-hover:scale-100 transition-transform duration-300"></div>
-             <Linkedin size={24} className="relative z-10 text-gray-400 group-hover:text-white transition-colors" />
-          </a>
-        </div>
+      {/* Wave Divider - The signature of this theme */}
+      <div className="absolute bottom-0 left-0 w-full leading-[0] z-20">
+        <svg className="relative block w-[calc(100%+1.3px)] h-[60px] md:h-[100px]" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shapeRendering="auto">
+          <defs>
+            <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
+          </defs>
+          <g className="wave-parallax">
+            <use xlinkHref="#gentle-wave" x="48" y="0" fill="rgba(255,255,255,0.05)" />
+            <use xlinkHref="#gentle-wave" x="48" y="3" fill="rgba(255,255,255,0.05)" />
+            <use xlinkHref="#gentle-wave" x="48" y="5" fill="rgba(255,255,255,0.05)" />
+            <use xlinkHref="#gentle-wave" x="48" y="7" fill="transparent" /> 
+          </g>
+        </svg>
+      </div>
 
-        <div className="animate-bounce">
-          <a 
-            href="#timeline" 
-            onClick={handleScrollDown}
-            className="flex flex-col items-center gap-2 text-gray-500 hover:text-white transition-colors cursor-pointer"
-          >
-            <span className="text-xs uppercase tracking-widest opacity-50">Scroll</span>
-            <ArrowDown size={20} />
-          </a>
-        </div>
+      {/* Scroll Down Indicator */}
+      <div className="absolute bottom-10 left-1/2 -translate-x-1/2 z-30 animate-float cursor-pointer">
+         <a href="#projects" onClick={handleScrollDown} className="text-white/70 hover:text-white transition-colors">
+           <ChevronDown size={48} className="drop-shadow-lg" />
+         </a>
       </div>
     </section>
   );

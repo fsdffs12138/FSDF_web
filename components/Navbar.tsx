@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { NAV_LINKS } from '../constants';
-import { Menu, X, Hexagon } from 'lucide-react';
+import { Menu, X, Search } from 'lucide-react';
 
 const Navbar: React.FC = () => {
   const [scrolled, setScrolled] = useState(false);
@@ -12,7 +12,6 @@ const Navbar: React.FC = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // 处理导航点击，防止修改 URL 导致的安全策略问题
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     e.preventDefault();
     const targetId = href.replace('#', '');
@@ -25,58 +24,54 @@ const Navbar: React.FC = () => {
 
   return (
     <>
-      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ease-in-out px-4 md:px-0 ${
-        scrolled ? 'py-4' : 'py-6'
+      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+        scrolled ? 'glass-nav h-16' : 'bg-transparent h-20'
       }`}>
-        <div className={`mx-auto max-w-5xl transition-all duration-300 ${
-          scrolled 
-            ? 'glass-nav rounded-full shadow-lg border border-white/10 px-6 py-3' 
-            : 'bg-transparent px-6'
-        }`}>
-          <div className="flex justify-between items-center">
-            {/* Logo */}
-            <a 
-              href="#hero" 
-              onClick={(e) => handleNavClick(e, '#hero')}
-              className="flex items-center gap-2 group cursor-pointer"
-            >
-              <Hexagon className="text-primary fill-primary/10 group-hover:rotate-90 transition-transform duration-500" size={24} />
-              <span className="text-xl font-bold tracking-tight text-white">
-                Neo<span className="text-primary">.Dev</span>
-              </span>
-            </a>
+        <div className="container mx-auto px-6 h-full max-w-7xl flex justify-between items-center">
+          {/* Logo */}
+          <a 
+            href="#hero" 
+            onClick={(e) => handleNavClick(e, '#hero')}
+            className="text-2xl font-bold font-serif text-white flex items-center gap-2 hover:text-primary transition-colors"
+          >
+            Fomalhaut<span className="text-primary text-3xl">.</span>
+          </a>
 
-            {/* Desktop Nav */}
-            <div className="hidden md:flex gap-1">
-              {NAV_LINKS.map(link => (
-                <a 
-                  key={link.label}
-                  href={link.href}
-                  onClick={(e) => handleNavClick(e, link.href)}
-                  className="px-5 py-2 text-sm font-medium text-gray-400 hover:text-white hover:bg-white/5 rounded-full transition-all cursor-pointer"
-                >
-                  {link.label}
-                </a>
-              ))}
-            </div>
-
-            {/* Mobile Toggle */}
-            <button 
-              className="md:hidden text-gray-300 hover:text-white p-1"
-              onClick={() => setMobileMenuOpen(true)}
-            >
-              <Menu size={24} />
+          {/* Desktop Nav */}
+          <div className="hidden md:flex items-center gap-8">
+            {NAV_LINKS.map(link => (
+              <a 
+                key={link.label}
+                href={link.href}
+                onClick={(e) => handleNavClick(e, link.href)}
+                className="group relative text-sm font-bold text-gray-200 hover:text-primary transition-colors py-2 flex items-center gap-2"
+              >
+                {/* Optional icons could go here */}
+                {link.label}
+                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></span>
+              </a>
+            ))}
+            <button className="text-gray-300 hover:text-white transition-colors p-2 hover:bg-white/10 rounded-full">
+              <Search size={20} />
             </button>
           </div>
+
+          {/* Mobile Toggle */}
+          <button 
+            className="md:hidden text-white"
+            onClick={() => setMobileMenuOpen(true)}
+          >
+            <Menu size={24} />
+          </button>
         </div>
       </nav>
 
       {/* Mobile Menu Overlay */}
-      <div className={`fixed inset-0 z-50 bg-background/95 backdrop-blur-xl transition-all duration-300 flex items-center justify-center ${
+      <div className={`fixed inset-0 z-50 bg-[#0f172a]/95 backdrop-blur-xl transition-all duration-300 flex items-center justify-center ${
         mobileMenuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
       }`}>
         <button 
-          className="absolute top-8 right-8 text-gray-400 hover:text-white"
+          className="absolute top-6 right-6 text-gray-400 hover:text-white"
           onClick={() => setMobileMenuOpen(false)}
         >
           <X size={32} />
@@ -87,7 +82,7 @@ const Navbar: React.FC = () => {
               <a 
                 key={link.label}
                 href={link.href}
-                className="text-3xl font-bold text-white hover:text-primary transition-colors cursor-pointer"
+                className="text-3xl font-bold text-white hover:text-primary transition-colors font-serif"
                 onClick={(e) => handleNavClick(e, link.href)}
               >
                 {link.label}

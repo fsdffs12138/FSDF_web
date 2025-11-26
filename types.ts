@@ -11,6 +11,8 @@ export interface Project {
   id: string;
   title: string;
   description: string;
+  longDescription?: string;
+  features?: string[];
   tags: string[];
   imageUrl: string;
   demoUrl?: string;
@@ -37,4 +39,19 @@ export interface ChatMessage {
 export interface NavLink {
   label: string;
   href: string;
+}
+
+export interface PersonalInfo {
+  name: string;
+  avatar: string;
+  profileCover: string; // New
+  title: string;
+  tagline: string;
+  about: string;
+  socials: {
+    github: string;
+    bilibili: string;
+    linkedin: string;
+  };
+  runTimeStart: string; // New
 }
